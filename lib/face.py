@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+from skimage.feature import local_binary_pattern
+from scipy.stats import itemfreq
 
 
 def detect(image):
@@ -8,7 +10,7 @@ def detect(image):
     # Output:
     #   cropped image: cropped rgb image containing face
 
-    faceCascade = cv2.CascadeClassifier("./haarcascade_frontalface_alt.xml")
+    faceCascade = cv2.CascadeClassifier("lib/haarcascade_frontalface_alt.xml")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = faceCascade.detectMultiScale(
         gray,
@@ -17,7 +19,6 @@ def detect(image):
         minSize=(30, 30)
     #    flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
-
     if len(faces) == 0:
         return None
 
@@ -30,13 +31,24 @@ def detect(image):
     return gray[y: y+h, x: x+w]
 
 
-def feat(lbp, img_path, method='revolve_uniform'):
-    assert method in ['basic', 'revolve', 'uniform', 'revolve_uniform']
-    img = cv2.imread(img_path)
-    img = detect(img)
+def lbphist(img, method='default'):
+    radius = 3
+    no_points = 8 * radius
+    lbp = local_binary_pattern(img, no_points, radius, method)
+    x = itemfreq(lbp.ravel())
+    hist = x[:, 1] / sum(x[:, 1])
+    return hist
+
+
+def feat(img_path, method='uniform'):
+    assert method in ['default', 'ror', 'uniform', 'var']
+    #print(img_path)
+    image = cv2.imread(img_path)
+    img = detect(image)
     if img is None:
         return None
-
+    hist = lbphist(img, method=method)
+    '''
     if method == 'basic':
         img_array = lbp.lbp_basic(img)
         hist = lbp.get_basic_hist(img_array)
@@ -47,7 +59,8 @@ def feat(lbp, img_path, method='revolve_uniform'):
         img_array = lbp.lbp_uniform(img)
         hist = lbp.get_uniform_hist(img_array)
     else:
-        img_array = lbp.lbp_revolve_uniform(img)
+        #img_array = lbp.lbp_revolve_uniform(img)
+        img_array = img
         hist = lbp.get_revolve_uniform_hist(img_array)
-
+    '''
     return hist
