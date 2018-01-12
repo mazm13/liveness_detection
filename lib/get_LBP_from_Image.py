@@ -185,21 +185,21 @@ class LBP:
         self.show_hist(img_array,[256],[0,256])
 
     def get_basic_hist(self,img_array):
-        self.get_hist(img_array,[256],[0,256])
+        return self.get_hist(img_array,[256],[0,256])
 
     #绘制图像旋转不变LBP特征的归一化统计直方图
     def show_revolve_hist(self,img_array):
         self.show_hist(img_array,[36],[0,36])
 
     def get_revolve_hist(self,img_array):
-        self.get_hist(img_array,[36],[0,36])
+        return self.get_hist(img_array,[36],[0,36])
 
     #绘制图像等价模式LBP特征的归一化统计直方图
     def show_uniform_hist(self,img_array):
         self.show_hist(img_array,[60],[0,60])
 
     def get_uniform_hist(self,img_array):
-        self.get_hist(img_array,[60],[0,60])
+        return self.get_hist(img_array,[60],[0,60])
 
     #绘制图像旋转不变等价模式LBP特征的归一化统计直方图
     def show_revolve_uniform_hist(self,img_array):

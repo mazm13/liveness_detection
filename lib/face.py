@@ -28,7 +28,14 @@ def detect(image):
     index = np.argmax(face_scales)
     (x, y, w, h) = faces[index]
 
-    return gray[y: y+h, x: x+w]
+    croped = gray[y: y+h, x: x+w]
+    W, H = croped.shape
+
+    # croped = gray[int(w/2-32):int(w/2+32),int(h/2-32):int(h/2+32)]
+    croped = croped[int(W * 0.15):int(W * 0.95), int(H * 0.15):int(H * 0.85)]
+    croped = cv2.resize(croped, (64, 64))
+
+    return croped
 
 
 def lbphist(img, method='default'):

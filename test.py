@@ -3,31 +3,26 @@ import numpy as np
 from lib import face
 from lib.get_LBP_from_Image import LBP
 from matplotlib import pyplot as plt
+from lib.utils import read_path
 
 import os
 import numpy as np
 
 posi_test = 'client_test_raw.txt'
 nega_test = 'imposter_test_raw.txt'
+ 
+paths = read_path(nega_test)
+for path in paths[:10]:
+    image = cv2.imread(path)
+    gray = face.detect(image)
 
+    w, h = gray.shape
 
-def load_training_data():
-    posi = np.load('./datas/posi_uniform.npy')
-    nega = np.load('./datas/nega_uniform.npy')
-    data = np.concatenate((posi, nega))
-    label1 = np.ones(len(posi))
-    label2 = np.ones(len(nega)) * -1
-    #label = np.concatenate((np.ones(len(posi)), np.ones(len(nega)) * -1))
-    label = np.concatenate((label1, label2))
-    return data, label
-
-if __name__ == '__main__':
-    data, label = load_training_data()
-    for i in range(len(data)):
-        plt.plot(data[i], color='r')
-        plt.xlim([0,60])
-    plt.show()
-
+    #croped = gray[int(w/2-32):int(w/2+32),int(h/2-32):int(h/2+32)]
+    croped = gray[int(w*0.15):int(w*0.95),int(h*0.15):int(h*0.85)]
+    croped = cv2.resize(croped, (64,64))
+    cv2.imshow('',croped)
+    cv2.waitKey(0)
 
 '''
 #faceCascade = cv2.CascadeClassifier("./haarcascade_frontalface_alt.xml")
