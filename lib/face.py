@@ -17,18 +17,18 @@ def detect(image):
         scaleFactor=1.1,
         minNeighbors=3,
         minSize=(30, 30)
-    #    flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+        #    flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
     if len(faces) == 0:
         return None
 
     # there may be more than one detected faces, select the biggest one
-    face_scales = [w*h for (_, _, w, h) in faces]
+    face_scales = [w * h for (_, _, w, h) in faces]
     face_scales = np.array(face_scales)
     index = np.argmax(face_scales)
     (x, y, w, h) = faces[index]
 
-    croped = gray[y: y+h, x: x+w]
+    croped = gray[y: y + h, x: x + w]
     W, H = croped.shape
 
     # croped = gray[int(w/2-32):int(w/2+32),int(h/2-32):int(h/2+32)]
@@ -49,7 +49,7 @@ def lbphist(img, method='default'):
 
 def feat(img_path, method='uniform'):
     assert method in ['default', 'ror', 'uniform', 'var']
-    #print(img_path)
+    # print(img_path)
     image = cv2.imread(img_path)
     img = detect(image)
     if img is None:

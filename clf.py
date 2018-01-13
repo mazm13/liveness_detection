@@ -26,14 +26,14 @@ if __name__ == '__main__':
     clf = svm.SVC(C=1.0, gamma=0.1)
     clf.fit(data, label)
 
-    data, label = load_data('testing', method)
-    score = clf.score(data, label)
-    print(score)
 
-    exit(0)
+    #data, label = load_data('testing', method)
+    #score = clf.score(data, label)
+    #print(score)
+
+    #exit(0)
 
     # formal testing(full data, including those whose face cannot be deteceted)
-    lbp = LBP()
     posi_paths = read_path(posi_test)
     nega_paths = read_path(nega_test)
 

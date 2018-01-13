@@ -23,7 +23,7 @@ def main(prefix, path_dic, method):
             else:
                 datas.append(feature)
         datas = np.array(datas)
-        np.save('./datas/' + prefix + '_' + tar + '_' + method, datas)
+        np.save('./datas/new_' + prefix + '_' + tar + '_' + method, datas)
         print('there is(are) %d picture(s) cannot be detected' % miss_cnt)
 
 
